@@ -1,0 +1,29 @@
+body{
+overflow-x:hidden;
+}
+
+div#testx{
+font-size:32px;
+}
+
+div#testy{
+font-size:32px;
+}
+
+div.dummy{
+position:absolute;
+
+}
+
+div.dummy img{
+ height:28px;
+ width:79px;
+
+}
+
+
+input.box{
+ margin-bottom: 6px;
+ font-size:15px;
+}
+

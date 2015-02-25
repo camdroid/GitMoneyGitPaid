@@ -1,0 +1,211 @@
+
+<html>
+<head>
+
+<script src="browser_detect.js"></script>
+<script>
+var spoofx=400;
+var spoofy=100;
+var barx=475;
+var bary=127;
+var addrx = 500;
+var addry = 152;
+var boxx=734;
+var boxy=310;
+var loginx = 955;
+var loginy = 430;//top:430px;left:955px
+var move=false;
+var c_x,c_y;
+var l_x=-1;
+var l_y=-1;
+
+
+window.onload = init;
+function init() {
+	if (window.Event) {
+	document.captureEvents(Event.MOUSEMOVE);
+	}
+	document.onmousemove = getCursorXY;
+
+	spoofx=400;
+	spoofy=100;
+	boxx=686;
+	boxy=270;
+	move=false;
+	l_x=-1;
+	l_y=-1;
+	var $ = document; // shortcut
+	var cssId = 'websec_test3_chrome.css';
+	if (!$.getElementById(cssId))
+	{
+	    var head  = $.getElementsByTagName('head')[0];
+	    var link  = $.createElement('link');
+	    link.id   = cssId;
+	    link.rel  = 'stylesheet';
+	    link.type = 'text/css';
+	    link.href = 'websec_test3_chrome.css';
+	    link.media = 'all';
+	    head.appendChild(link);
+	}
+
+	//change size of inpput box
+	$.getElementById('box').style.top='100px';
+            $.getElementById('box').style.left='400px';
+	
+	if (BrowserDetect.OS=="Mac"){
+		$.getElementById('user').size=26;
+		$.getElementById('pass').size=26;
+	}
+}
+
+function getCursorXY(e) {
+
+	if (!move)return;
+
+	c_x = (window.Event) ? e.pageX : event.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft);
+	c_y = (window.Event) ? e.pageY : event.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
+	if(l_x == -1){
+		l_x=c_x;
+		l_y=c_y;
+	}
+
+	//calculates how much to move
+	var dx = c_x-l_x;
+	var dy = c_y-l_y;
+
+	//update x,y;
+	l_x = c_x;
+	l_y = c_y;
+
+//document.getElementById('testx').innerHTML =dx;
+//document.getElementById('testy').innerHTML =dy;
+
+
+	var spoof = document.getElementById('spoof');
+	var box = document.getElementById('box');
+	var bar = document.getElementById('bar');
+	var login = document.getElementById('login');
+	var addr = document.getElementById('addr');
+
+	spoofy=spoofy+dy;
+	spoofx=spoofx+dx;
+	spoof.style.top=spoofy+"px";
+	spoof.style.left=spoofx+"px";
+
+	bary+=dy;
+	barx+=dx;
+	bar.style.top=bary+"px";
+	bar.style.left=barx+"px";
+
+	addrx+=dx;
+	addry+=dy;
+	addr.style.top=addry+"px";
+	addr.style.left=addrx+"px";	
+
+	boxy+=dy;
+	boxx+=dx;
+	box.style.top=boxy+"px";
+	box.style.left=boxx+"px";	
+		
+	loginy+=dy;
+	loginx+=dx;
+	login.style.top=loginy+"px";
+	login.style.left=loginx+"px";
+}
+
+
+function start(){
+	move=true;
+}
+
+function stop(){
+	move=false;
+	l_x=-1;
+	l_y=-1;
+}
+
+function show(){
+  document.getElementById('load').style.display='none';
+  document.getElementById('spoof').style.display="inline";
+  document.getElementById('box').style.display="inline";
+  document.getElementById('bar').style.display="inline";
+  document.getElementById('login').style.display='inline';
+
+  show_addr();
+}
+
+function payload(){
+	document.getElementById('spoof').style.display='none';
+	document.getElementById('box').style.display='none';
+	document.getElementById('bar').style.display='none';
+	document.getElementById('login').style.display='none';
+	document.getElementById('addr').style.display='none';
+	document.getElementById('payload').style.display='inline';
+	var filler_user = document.getElementById('user').value;
+	var filler_pass = document.getElementById('pass').value;
+
+	document.getElementById('payload').innerHTML = "Your username is \""+filler_user+"\" and your password is \"" + filler_pass+"\". :)";
+
+}
+
+function show_addr(){
+	document.getElementById('addr').style.display='inline';
+	document.getElementById('addr_bar').value = 'http://www.facebook.com/login.php';
+
+}
+
+function start_spoofing(){
+	document.getElementById('load').style.display='inline';
+	setTimeout('show()',800);
+
+}
+
+</script>
+</head>
+
+
+<body>
+
+<div class="dummy">
+	<img src="fb_but.png" onclick="start_spoofing()" ></img> &lt;===== Click here!<br />
+</div>
+
+
+<!-- about blank loading page -->
+<div class="load" style="display:none;position:absolute;top:93px;left:410px" id="load">
+<img src="fb_load.png" ></img><br />
+</div>
+
+<!-- the text div displayed after clicking login -->
+<div style="display:none;position:absolute;top:200px;left:200px;font-size:20px" class="payload" id="payload">
+</div>
+
+<!--- main spoofing img -->
+<div style="display:none;position:absolute;top:100px;left:400px" class="spoof" id='spoof'>
+	<img src="fb.png" class="spoof"></img>	
+</div>
+
+<!---input box text box -->
+<div style="display:none" class="box" id='box'>
+<input style="position:absolute;top:273px;left:688px;width:183px;height:22px" class="box" id='user' type="text" size="22" /><br />
+<input style="position:absolute;top:303px;left:688px;width:183px;height:22px" class="box" id='pass' type="password" size="22"/>
+</div>
+
+<!---address bar text box -->
+<div style="display:none;position:absolute;top:152px;left:500px" class="addr" id="addr">
+<input class="addr_bar" id='addr_bar' style="font-size:14px;border:none" type="text" size="92"/>
+</div>
+
+<!-- windows bar-->
+<div style="display:none;position:absolute;top:127px;left:475px" class="bar" id='bar'>
+	<img onmousedown="start()" onmouseup="stop()" style="height:26px;width:605px;opacity:0;filter:alpha(opacity=0)"></img>	
+</div>
+
+<!-- actual login button on the spoofed window-->
+<div style="position:absolute;top:430px;left:955px" class="login" id='login'>
+	<img onmousedown="payload()" style="height:27px;width:55px;opacity:0;filter:alpha(opacity=0)"></img>	
+</div>
+
+</body>
+
+</html>

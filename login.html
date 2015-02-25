@@ -77,7 +77,31 @@ p{
 
     <div id="content">
         
-<p><a href="./login.html">Login Here!</a></p>
+
+
+
+<form >
+<table>
+<tr>
+    <td><label for="id_username">Username:</label></td>
+    <td><input id="id_username" maxlength="254" name="username" type="text" /></td>
+</tr>
+<tr>
+    <td><label for="id_password">Password:</label></td>
+    <td><input id="id_password" name="password" type="password" /></td>
+</tr>
+</table>
+
+<input type="button" value="login" onclick="stealCreds()"/>
+<script>
+    function stealCreds() {
+        alert('Username: '+document.getElementsByName('username')[0].value+
+            '\nPassword: '+document.getElementsByName('password')[0].value);
+    }
+</script>
+<input type="hidden" name="next" value="" />
+</form>
+
 
     </div>
 </body>
